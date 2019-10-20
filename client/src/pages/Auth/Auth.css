@@ -1,0 +1,12 @@
+.card-header {
+  background-color: lightblue !important;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  width: 600px;
+}
