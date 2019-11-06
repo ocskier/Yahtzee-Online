@@ -1,1 +1,1 @@
-export { default } from "./Yahtzee.js";
+export { default } from './Yahtzee';

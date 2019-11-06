@@ -1,8 +1,8 @@
-import React from "react";
-import { Col, Row, Container } from "../../components/Grid";
-import Jumbotron from "../../components/Jumbotron";
+import React from 'react';
+import { Col, Row, Container } from '../../components/Grid';
+import Jumbotron from '../../components/Jumbotron';
 
-const NoMatch = () => (
+const NoMatch = (props: any) => (
   <Container fluid>
     <Row>
       <Col size="md-12">

@@ -1,9 +1,10 @@
-import React, { ReactPropTypes, FC } from "react";
+import React, { FC, ReactNode } from 'react';
 
-interface ContainerProps extends ReactPropTypes {
-  fluid: string;
+interface ContainerProps {
+  fluid?: boolean | string;
+  children: ReactNode;
 }
 
 export const Container: FC<ContainerProps> = ({ fluid, children }) => (
-  <div className={`container${fluid ? "-fluid" : ""}`}>{children}</div>
+  <div className={`container${fluid ? '-fluid' : ''}`}>{children}</div>
 );

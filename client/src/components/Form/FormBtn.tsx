@@ -1,13 +1,12 @@
-import React, { ReactPropTypes, FC } from "react";
+import React, { FC, MouseEvent } from 'react';
 
-interface FormBtnProps extends ReactPropTypes {}
+interface FormBtnProps {
+  onClick: (event: MouseEvent & any) => void;
+  children: string;
+}
 
 export const FormBtn: FC<FormBtnProps> = props => (
-  <button
-    {...props}
-    style={{ float: "right", marginBottom: 10 }}
-    className="btn btn-success"
-  >
+  <button onClick={props.onClick} style={{ float: 'right', marginBottom: 10 }} className="btn btn-success">
     {props.children}
   </button>
 );

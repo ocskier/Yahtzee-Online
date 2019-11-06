@@ -1,15 +1,16 @@
-import React, { ReactPropTypes, FC, ReactChild, ReactChildren } from "react";
+import React, { FC, ReactNode, ReactNodeArray } from 'react';
 
-interface ColProps extends ReactPropTypes {
-  size: string;
+interface ColProps {
+  size?: string;
+  children: ReactNode | ReactNodeArray;
 }
 
 export const Col: FC<ColProps> = ({ size, children }) => (
   <div
-    className={size
-      .split(" ")
-      .map(size => "col-" + size)
-      .join(" ")}
+    className={size!
+      .split(' ')
+      .map(size => 'col-' + size)
+      .join(' ')}
   >
     {children}
   </div>

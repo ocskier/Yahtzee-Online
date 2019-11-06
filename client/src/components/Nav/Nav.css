@@ -1,7 +1,16 @@
 .logout {
-  color: #fff;
+  color: black;
 }
 
 .blue {
   background-color: lightblue;
+}
+
+.brandText {
+  color: black;
+  padding-left: 10px;
+}
+
+a {
+  text-align: center;
 }

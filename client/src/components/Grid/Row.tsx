@@ -1,9 +1,10 @@
-import React, { ReactPropTypes, FC } from "react";
+import React, { FC, ReactNode, ReactNodeArray } from 'react';
 
-interface RowProps extends ReactPropTypes {
-  fluid: string;
+interface RowProps {
+  fluid?: string;
+  children: ReactNode | ReactNodeArray;
 }
 
 export const Row: FC<RowProps> = ({ fluid, children }) => (
-  <div className={`row${fluid ? "-fluid" : ""}`}>{children}</div>
+  <div className={`row${fluid ? '-fluid' : ''}`}>{children}</div>
 );

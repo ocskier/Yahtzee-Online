@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   // Gets user info
-  getUser: function(tokenData) {
+  getUser: function(tokenData: { token: string }) {
     return axios.post('/auth/user', tokenData);
   },
   // Logs the user out
@@ -10,11 +10,11 @@ export default {
     return axios.post('/auth/logout');
   },
   // Log the user in
-  login: function(username, password) {
+  login: function(username: string, password: string) {
     return axios.post('/auth/login', { username, password });
   },
   // New user registration
-  signup: function(userData) {
+  signup: function(userData: { firstName: string; lastName: string; username: string; password: string }) {
     return axios.post('/auth/signup', userData);
-  }
+  },
 };

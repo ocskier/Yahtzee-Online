@@ -2,7 +2,11 @@
     "compilerOptions": {
         "target": "es5",
         "lib": [
-            "es2015"
+            "dom",
+            "dom.iterable",
+            "esnext",
+            "es2015",
+            "es6"
         ],
         "allowJs": true,
         "skipLibCheck": true,
@@ -14,12 +18,19 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "noEmit": true,
-        "baseUrl": "./server"
+        "baseUrl": "./server",
+        "outDir": "./server/dist",
+        // "paths": {
+        //     "*": [
+        //         "node_modules/*",
+        //         "types/*"
+        //     ]
+        // },
     },
     "include": [
-        "./server/**/*.ts"
+        "server/**/*"
     ],
     "exclude": [
-        "./node_modules/**/*"
+        "node_modules"
     ]
 }
