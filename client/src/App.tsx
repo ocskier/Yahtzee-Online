@@ -45,7 +45,7 @@ class App extends Component<Props, State> {
       });
   }
 
-  logout = (event: MouseEvent) => {
+  logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
     this.setState(
       {

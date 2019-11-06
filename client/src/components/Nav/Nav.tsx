@@ -10,7 +10,7 @@ import './Nav.css';
 interface NavProps {
   footer: boolean | undefined;
   user?: User | null;
-  logout?: (event: MouseEvent) => void;
+  logout?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }
 
 const NavBar: FC<NavProps> = props => {
@@ -52,7 +52,7 @@ const NavBar: FC<NavProps> = props => {
           </Navbar.Brand>
           <Nav className="flex-column">
             <Navbar.Text>{greeting}</Navbar.Text>
-            <Link to="/" className="logout">
+            <Link onClick={props.logout} to="/" className="logout">
               Logout
             </Link>
           </Nav>
