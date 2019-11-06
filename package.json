@@ -13,7 +13,7 @@
     "seed": "node server/scripts/seedDB.js",
     "install": "cd client && npm install",
     "build-ts": "cd client && npm run build",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "npm run build-ts",
     "tsc": "tsc --outdir ./server/dist",
     "dev": "ts-node-dev --respawn --watch server/**/*.ts --transpileOnly ./server/server.ts"
   },
