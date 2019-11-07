@@ -9,7 +9,8 @@ import './Nav.css';
 
 interface NavProps {
   footer: boolean | undefined;
-  user?: User | null;
+  loggedIn?: boolean;
+  user?: any | null;
   logout?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }
 
@@ -18,10 +19,10 @@ const NavBar: FC<NavProps> = props => {
 
   if (props.user === null) {
     greeting = <p>Hello guest</p>;
-  } else if (props.user && props.user.firstName) {
+  } else if (props.user && props.user.givenName) {
     greeting = (
       <Fragment>
-        Welcome back, <strong>{props.user.firstName}</strong>
+        Welcome back, <strong>{props.user.givenName}</strong>
       </Fragment>
     );
   } else if (props.user && props.user.username) {
@@ -53,7 +54,7 @@ const NavBar: FC<NavProps> = props => {
           <Nav className="flex-column">
             <Navbar.Text>{greeting}</Navbar.Text>
             <Link onClick={props.logout} to="/" className="logout">
-              Logout
+              {props.loggedIn ? 'Logout' : 'Login'}
             </Link>
           </Nav>
         </>
