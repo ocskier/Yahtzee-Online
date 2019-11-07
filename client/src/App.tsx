@@ -103,7 +103,7 @@ class App extends Component<Props, State> {
       <div className="App">
         <Nav footer={false} {...this.state} logout={this.logout} />
         {this.state.loggedIn && (
-          <div className="main-view">
+          <div className="main-view" style={{ display: 'flex' }}>
             <Switch>
               <Route exact path="/" component={Yahtzee} />
               <Route component={NoMatch} />
