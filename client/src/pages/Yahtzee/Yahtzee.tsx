@@ -49,7 +49,29 @@ class Yahtzee extends Component<YState> {
   }
 
   render() {
-    return <div></div>;
+    return (
+      <>
+        <Card style={{ width: '18rem', position: 'absolute', right: '5%', bottom: '15%' }}>
+          <Card.Img
+            variant="top"
+            src="https://images.vexels.com/media/users/3/135811/isolated/preview/f3dc1094d770aadce0dff261623fddb6-dices-3d-icon-by-vexels.png"
+          />
+          <Card.Body>
+            <Card.Title>Stream</Card.Title>
+            <Card.Text>Players Chat Area</Card.Text>
+          </Card.Body>
+          <ListGroup className="list-group-flush">
+            {this.state.tweets.map((tweet: any) => (
+              <ListGroupItem>{tweet}</ListGroupItem>
+            ))}
+          </ListGroup>
+          <Card.Body>
+            <Card.Link href="#">Something</Card.Link>
+            <Card.Link href="#">Chat</Card.Link>
+          </Card.Body>
+        </Card>
+      </>
+    );
   }
 }
 
