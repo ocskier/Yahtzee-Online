@@ -5,6 +5,8 @@ import { Card } from '../../components/Card';
 import { Input, FormBtn } from '../../components/Form';
 import AUTH from '../../utils/AUTH';
 
+import { AxiosResponse } from 'axios';
+
 import './Auth.css';
 
 interface Props {}
@@ -47,7 +49,7 @@ class SignupForm extends Component<Props, State> {
       lastName: this.state.lastName,
       username: this.state.username,
       password: this.state.password,
-    }).then(response => {
+    }).then((response: AxiosResponse) => {
       console.log(response);
       if (!response.data.error) {
         console.log('youre good');

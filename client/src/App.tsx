@@ -12,7 +12,7 @@ interface Props {}
 interface State {
   loggedIn: boolean;
   user: any;
-  token: string;
+  // token: string;
 }
 
 class App extends Component<Props, State> {
@@ -22,27 +22,36 @@ class App extends Component<Props, State> {
     this.state = {
       loggedIn: false,
       user: null,
-      token: '',
+      // token: '',
     };
   }
 
   componentDidMount() {
-    const token = sessionStorage.getItem('token');
-    token &&
-      AUTH.getUser({ token: token }).then(response => {
-        console.log(response.data);
-        if (!!response.data.user) {
-          this.setState({
-            loggedIn: true,
-            user: response.data.user,
-          });
-        } else {
-          this.setState({
-            loggedIn: false,
-            user: null,
-          });
-        }
+    let user = JSON.parse(sessionStorage.getItem('user_data') || '{}');
+    if (Object.keys(user).length === 0 && user.constructor === Object) {
+      user = null;
+    }
+    console.log(user);
+    user &&
+      this.setState({
+        loggedIn: true,
+        user: user.profile,
+        // token: user.token,
       });
+    // AUTH.getUser({ token: token }).then(response => {
+    //   console.log(response.data);
+    //   if (!!response.data.user) {
+    //     this.setState({
+    //       loggedIn: true,
+    //       user: response.data.user,
+    //     });
+    //   } else {
+    //     this.setState({
+    //       loggedIn: false,
+    //       user: null,
+    //     });
+    //   }
+    // });
   }
 
   logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -52,7 +61,7 @@ class App extends Component<Props, State> {
         loggedIn: false,
         user: null,
       },
-      () => sessionStorage.removeItem('token'),
+      () => sessionStorage.removeItem('user_data'),
     );
   };
 
@@ -77,21 +86,22 @@ class App extends Component<Props, State> {
   };
 
   socialLogin = (userObj: any) => {
+    userObj && delete userObj.tokenData;
     userObj &&
       this.setState(
         {
           loggedIn: true,
           user: userObj.profile,
-          token: userObj.token,
+          // token: userObj.token,
         },
-        () => sessionStorage.setItem('token', this.state.token),
+        () => sessionStorage.setItem('user_data', JSON.stringify(userObj)),
       );
   };
 
   render() {
     return (
       <div className="App">
-        <Nav footer={false} user={this.state.user} logout={this.logout} />
+        <Nav footer={false} {...this.state} logout={this.logout} />
         {this.state.loggedIn && (
           <div className="main-view">
             <Switch>
