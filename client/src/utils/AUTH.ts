@@ -17,4 +17,7 @@ export default {
   signup: function(userData: { firstName: string; lastName: string; username: string; password: string }) {
     return axios.post('/auth/signup', userData);
   },
+  socialLogin: (token: string, service: string) => {
+    return axios.post(`/auth/${service}?token=${token}`);
+  },
 };
