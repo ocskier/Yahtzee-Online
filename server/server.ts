@@ -60,7 +60,7 @@ const myServer = app.listen(PORT, () => {
 
 const mySocket = io(myServer);
 
-// This is what the socket.io syntax is like, we will work this later
+// Socket scripts
 mySocket.on('connection', function(socket: Socket) {
   console.log('User connected');
   socket.on('data', function(data) {
