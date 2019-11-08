@@ -6,6 +6,8 @@ import ioClient from 'socket.io-client';
 
 import { Card, Container, ListGroup, ListGroupItem } from 'react-bootstrap';
 
+import { Row, Col } from '../../components/Grid';
+
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 
 import API from '../../utils/API';
@@ -55,43 +57,50 @@ class Yahtzee extends Component<YState> {
 
   render() {
     return (
-      <>
-        <Container
-          style={{
-            width: '70%',
-            maxWidth: '1160px',
-            background: 'white',
-            minHeight: '626px',
-            margin: '40px',
-            borderRadius: '5%',
-          }}
-        ></Container>
-        <Card style={{ maxWidth: '20%', margin: '40px auto 0', maxHeight: '560px' }}>
-          <Card.Img
-            height={100}
-            variant="top"
-            src="https://images.vexels.com/media/users/3/135811/isolated/preview/f3dc1094d770aadce0dff261623fddb6-dices-3d-icon-by-vexels.png"
-          />
-          <Card.Body>
-            <Card.Title>Stream</Card.Title>
-            <Card.Text>Players Chat Area</Card.Text>
-          </Card.Body>
-          <ListGroup className="list-group-flush" style={{ overflow: 'auto', maxHeight: '325px' }}>
-            {this.state.tweets &&
-              this.state.tweets.map((tweet: any, i: number) => {
-                return (
-                  <ListGroupItem key={i}>
-                    <TwitterTweetEmbed tweetId={tweet} />
-                  </ListGroupItem>
-                );
-              })}
-          </ListGroup>
-          <Card.Body>
-            <Card.Link href="#">Something</Card.Link>
-            <Card.Link href="#">Chat</Card.Link>
-          </Card.Body>
-        </Card>
-      </>
+      <Row>
+        <Col size={'9'}>
+          <Container
+            style={{
+              width: '80%',
+              maxWidth: '1160px',
+              background: 'white',
+              minHeight: '626px',
+              margin: '40px',
+              borderRadius: '5%',
+            }}
+          ></Container>
+        </Col>
+        <Col size={'3'}>
+          <Card style={{ margin: '40px auto 0', maxHeight: '560px', width: '90%' }}>
+            <Card.Img
+              height={100}
+              variant="top"
+              src="https://images.vexels.com/media/users/3/135811/isolated/preview/f3dc1094d770aadce0dff261623fddb6-dices-3d-icon-by-vexels.png"
+            />
+            <Card.Body>
+              <Card.Title>Stream</Card.Title>
+              <Card.Text>Players Chat Area</Card.Text>
+            </Card.Body>
+            <ListGroup
+              className="list-group-flush"
+              style={{ overflow: 'auto', minHeight: '100px', maxHeight: '325px' }}
+            >
+              {this.state.tweets &&
+                this.state.tweets.map((tweet: any, i: number) => {
+                  return (
+                    <ListGroupItem key={i}>
+                      <TwitterTweetEmbed tweetId={tweet} />
+                    </ListGroupItem>
+                  );
+                })}
+            </ListGroup>
+            <Card.Body>
+              <Card.Link href="#">Something</Card.Link>
+              <Card.Link href="#">Chat</Card.Link>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     );
   }
 }
