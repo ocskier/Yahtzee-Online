@@ -23,6 +23,7 @@ const styleSheet: StyleTypes = {
   socialDiv: {
     display: 'flex',
     flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   buttonText: {
     display: 'inline-block',
@@ -40,7 +41,7 @@ const styleSheet: StyleTypes = {
     background: 'white',
     color: '#444',
     width: 'auto',
-    minWidth: '250px',
+    maxWidth: '240px',
     borderRadius: '5px',
     border: 'thin solid #888',
     boxShadow: '1px 1px 1px grey',
@@ -129,7 +130,7 @@ class LoginForm extends Component<LoginProps, LoginState> {
           <Redirect to={{ pathname: this.state.redirectTo }} />
         ) : (
           <Card title="Lets Play Yahtzee!">
-            <div>
+            <div style={styleSheet.socialDiv}>
               <GoogleLogin
                 clientId="861473397675-0ci55ekv78thhu1o408ig91qo2dl2bcq.apps.googleusercontent.com"
                 onSuccess={this.onSuccessHandler}
