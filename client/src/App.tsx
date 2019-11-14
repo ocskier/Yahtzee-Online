@@ -105,7 +105,7 @@ class App extends Component<Props, State> {
         {this.state.loggedIn && (
           <div className="main-view container-fluid">
             <Switch>
-              <Route exact path="/" component={Yahtzee} />
+              <Route exact path="/" component={() => <Yahtzee user={this.state.user} />} />
               <Route component={NoMatch} />
             </Switch>
           </div>

@@ -76,15 +76,12 @@ mySocket.on('connection', function(socket: Socket) {
       tw.untrack(data);
     });
   });
-  // socket.on('chat', function(text, user) {
-  //   console.log(`${user._id} - ${text}`);
-  //   delete user.notes;
-  //   delete user.email;
-  //   delete user.username;
-  //   delete user.isAdmin;
-  //   socket.emit('chat', text, user);
-  //   socket.broadcast.emit('chat', text, user);
-  // });
+  socket.on('chat', function(text: string, user: any) {
+    console.log(`${user.googleId} - ${text}`);
+    delete user.googleId;
+    socket.emit('chat', text, user);
+    socket.broadcast.emit('chat', text, user);
+  });
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
