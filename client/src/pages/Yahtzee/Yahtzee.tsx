@@ -83,7 +83,10 @@ class Yahtzee extends Component<YProps, YState> {
               {
                 incomingMsgs: newMsgArr,
               },
-              () => console.log(this.state),
+              () => {
+                const messageBody = document.querySelector('#chatBody');
+                messageBody!.scrollTop = messageBody!.scrollHeight - messageBody!.clientHeight;
+              },
             );
           });
       },
@@ -103,7 +106,7 @@ class Yahtzee extends Component<YProps, YState> {
     }));
   };
 
-  submitHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  submitHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.KeyboardEvent) => {
     let msg = this.state.outgoingMsg;
     this.setState(
       {
@@ -111,6 +114,13 @@ class Yahtzee extends Component<YProps, YState> {
       },
       () => this.state.socket && this.state.socket.emit('chat', msg, this.props.user),
     );
+  };
+
+  pressedEnter = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      this.submitHandler(e);
+    }
   };
 
   render() {
@@ -146,7 +156,7 @@ class Yahtzee extends Component<YProps, YState> {
                 padding: 30,
                 border: 'solid 5px blue',
                 display: 'flex',
-                flexDirection: 'column-reverse',
+                flexDirection: 'column',
                 overflow: 'scroll',
                 maxHeight: '160px',
                 height: '200px',
@@ -166,7 +176,12 @@ class Yahtzee extends Component<YProps, YState> {
               <Form>
                 <Form.Group controlId="formBasicInput">
                   <Form.Label>Message</Form.Label>
-                  <Form.Control name="outgoingMsg" value={this.state.outgoingMsg} onChange={this.handleChange} />
+                  <Form.Control
+                    name="outgoingMsg"
+                    value={this.state.outgoingMsg}
+                    onChange={this.handleChange}
+                    onKeyPress={this.pressedEnter}
+                  />
                 </Form.Group>
               </Form>
               <Button variant="primary" onClick={this.submitHandler}>
