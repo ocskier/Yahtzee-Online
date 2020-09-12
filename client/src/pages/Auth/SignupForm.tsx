@@ -1,9 +1,7 @@
-import React, { Component, ChangeEvent } from 'react';
+import React, { FC, ChangeEvent, useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import { Container } from '../../components/Grid';
 import { Card } from '../../components/Card';
 import { Input, FormBtn } from '../../components/Form';
-import AUTH from '../../utils/AUTH';
 
 import { AxiosResponse } from 'axios';
 
@@ -19,80 +17,67 @@ interface State {
   redirectTo: string | null;
 }
 
-class SignupForm extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+const SignupForm: FC<Props> = () => {
+  const [formState, setFormState] = useState({
+    firstName: '',
+    lastName: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [redirectTo, setRedirectTo] = useState('');
 
-    this.state = {
-      firstName: '',
-      lastName: '',
-      username: '',
-      password: '',
-      confirmPassword: '',
-      redirectTo: null,
-    };
-  }
-
-  handleChange = (event: ChangeEvent<{ name: string; value: unknown }>) => {
+  const handleChange = (event: ChangeEvent<{ name: string; value: unknown }>) => {
     const { name } = event.target;
-    this.setState((prevState: State) => ({
-      ...prevState,
+    setFormState({
+      ...formState,
       [event.target.name]: event.target.value,
-    }));
-  };
-
-  handleSubmit = (event: MouseEvent) => {
-    event.preventDefault();
-    // TODO - validate!
-    AUTH.signup({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      username: this.state.username,
-      password: this.state.password,
-    }).then((response: AxiosResponse) => {
-      console.log(response);
-      if (!response.data.error) {
-        console.log('youre good');
-        this.setState({
-          redirectTo: '/',
-        });
-      } else {
-        console.log('duplicate');
-      }
     });
   };
 
-  render() {
-    if (this.state.redirectTo) {
-      return <Redirect to={{ pathname: this.state.redirectTo }} />;
-    }
+  const handleSubmit = (event: MouseEvent) => {
+    event.preventDefault();
+    // TODO - validate!
+    // ({
+    //   firstName: this.state.firstName,
+    //   lastName: this.state.lastName,
+    //   username: this.state.username,
+    //   password: this.state.password,
+    // })
+    // if (!response.data.error) {
+    //   console.log('youre good');
+    //   this.setState({
+    //     redirectTo: '/',
+    //   });
+    // } else {
+    //   console.log('duplicate');
+    // }
+  };
 
-    return (
-      <Container>
-        <Card title="Lets Play Yahtzee!">
-          <form style={{ marginTop: 10 }}>
-            <label htmlFor="username">First name: </label>
-            <Input type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
-            <label htmlFor="username">Last name: </label>
-            <Input type="text" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
-            <label htmlFor="username">Username: </label>
-            <Input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
-            <label htmlFor="password">Password: </label>
-            <Input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
-            <label htmlFor="confirmPassword">Confirm Password: </label>
-            <Input
-              type="password"
-              name="confirmPassword"
-              value={this.state.confirmPassword}
-              onChange={this.handleChange}
-            />
-            <Link to="/">Login</Link>
-            <FormBtn onClick={this.handleSubmit}>Register</FormBtn>
-          </form>
-        </Card>
-      </Container>
-    );
+  if (redirectTo) {
+    return <Redirect to={{ pathname: redirectTo }} />;
   }
-}
+
+  return (
+    <div>
+      <Card title="Lets Play Yahtzee!">
+        <form style={{ marginTop: 10 }}>
+          <label htmlFor="username">First name: </label>
+          <Input type="text" name="firstName" value={formState.firstName} onChange={handleChange} />
+          <label htmlFor="username">Last name: </label>
+          <Input type="text" name="lastName" value={formState.lastName} onChange={handleChange} />
+          <label htmlFor="username">Username: </label>
+          <Input type="text" name="username" value={formState.username} onChange={handleChange} />
+          <label htmlFor="password">Password: </label>
+          <Input type="password" name="password" value={formState.password} onChange={handleChange} />
+          <label htmlFor="confirmPassword">Confirm Password: </label>
+          <Input type="password" name="confirmPassword" value={formState.confirmPassword} onChange={handleChange} />
+          <Link to="/">Login</Link>
+          <FormBtn onClick={handleSubmit}>Register</FormBtn>
+        </form>
+      </Card>
+    </div>
+  );
+};
 
 export default SignupForm;

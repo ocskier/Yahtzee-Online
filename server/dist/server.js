@@ -1,9 +1,3 @@
-// Loading evnironmental variables here
-if (process.env.NODE_ENV !== 'production') {
-    console.log('loading dev environments');
-    require('dotenv').config();
-}
-require('dotenv').config();
 var express = require('express');
 var morgan = require('morgan');
 var session = require('express-session');
@@ -12,6 +6,12 @@ var dbConnection = require('./db'); // loads our connection to the mongo databas
 var routes = require('./routes');
 var app = express();
 var PORT = process.env.PORT || 3001;
+// Loading evnironmental variables here
+if (process.env.NODE_ENV !== 'production') {
+    console.log('loading dev environments');
+    require('dotenv').config();
+}
+require('dotenv').config();
 // Middlewares
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
@@ -43,3 +43,4 @@ app.use(function (err, req, res, next) {
 app.listen(PORT, function () {
     console.log("\uD83C\uDF0E  ==> API Server now listening on PORT " + PORT + "!");
 });
+export {};

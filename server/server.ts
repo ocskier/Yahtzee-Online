@@ -1,12 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
 
-// Loading evnironmental variables here
-if (process.env.NODE_ENV !== 'production') {
-  console.log('loading dev environments');
-  require('dotenv').config();
-}
-require('dotenv').config();
-
 const express = require('express');
 const morgan = require('morgan');
 const session = require('express-session');
@@ -15,6 +8,13 @@ const dbConnection = require('./db'); // loads our connection to the mongo datab
 const routes = require('./routes');
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Loading evnironmental variables here
+if (process.env.NODE_ENV !== 'production') {
+  console.log('loading dev environments');
+  require('dotenv').config();
+}
+require('dotenv').config();
 
 // Middlewares
 app.use(morgan('dev'));
@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(routes);
 
 // Error handler
-app.use(function(err: Error, req: Request, res: Response, next: NextFunction) {
+app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
   console.log('====== ERROR =======');
   console.error(err.stack);
   res.status(500);

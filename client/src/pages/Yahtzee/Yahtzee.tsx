@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { Link } from "react-router-dom";
 
 import API from '../../utils/API';
 import { AxiosResponse } from 'axios';
 
-class Yahtzee extends Component {
-  state = {
-    players: [],
-    socket: {},
-  };
+function Yahtzee() {
+  const [players, setPlayers] = useState([]);
+  const [socket, setSocket] = useState({});
 
-  componentDidMount() {
+  useEffect(() => {
     API.checkConnection().then((res: AxiosResponse) => console.log(res));
-  }
+  }, []);
 
-  render() {
-    return <div></div>;
-  }
+  return <div></div>;
 }
 
 export default Yahtzee;
