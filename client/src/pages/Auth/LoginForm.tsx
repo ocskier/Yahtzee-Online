@@ -1,13 +1,16 @@
 import React, { FC, useState, MouseEvent } from 'react';
 import { Redirect, Link } from 'react-router-dom';
+import { useFirebaseAuth } from 'use-firebase-auth';
 
 // Import App Components
 import { Card } from '../../components/Card';
 import { Input, FormBtn } from '../../components/Form';
+import CircularProgress from '../../components/Progress';
 
 import './Auth.css';
 
 interface StyleTypes {
+  signInCard: any;
   socialDiv: any;
   buttonText: any;
   socialFab: any;
@@ -16,6 +19,9 @@ interface StyleTypes {
 }
 
 const styleSheet: StyleTypes = {
+  signInCard: {
+    marginTop: '-10rem',
+  },
   socialDiv: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -69,6 +75,7 @@ interface LoginProps {
 }
 
 const LoginForm: FC<LoginProps> = (props) => {
+  const { loading, error, signInWithProvider } = useFirebaseAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [redirectTo, setRedirectTo] = useState('');
@@ -79,7 +86,7 @@ const LoginForm: FC<LoginProps> = (props) => {
     props.login(username, password);
   };
 
-  const onFailureHandler = (error: any) => console.log(error);
+  const onGoogleSubmit = () => signInWithProvider('google');
 
   const onSuccessHandler = (data: any) => {
     data &&
@@ -95,41 +102,45 @@ const LoginForm: FC<LoginProps> = (props) => {
     <>
       {redirectTo ? (
         <Redirect to={{ pathname: redirectTo }} />
+      ) : loading ? (
+        <CircularProgress />
       ) : (
-        <Card title="Lets Play Yahtzee!">
-          <div>
-            <div style={styleSheet.socialFab} onClick={() => null}>
-              <span style={styleSheet.googleIcon}></span>
-              <span style={styleSheet.buttonText}>Login with Google</span>
+        <div style={styleSheet.signInCard}>
+          <Card title="Lets Play Yahtzee!">
+            <div>
+              <div style={styleSheet.socialFab} onClick={onGoogleSubmit}>
+                <span style={styleSheet.googleIcon}></span>
+                <span style={styleSheet.buttonText}>Login with Google</span>
+              </div>
+              <div style={styleSheet.socialFab} onClick={() => null}>
+                <span style={styleSheet.facebookIcon}></span>
+                <span style={styleSheet.buttonText}>Login with Facebook</span>
+              </div>
             </div>
-            <div style={styleSheet.socialFab} onClick={() => null}>
-              <span style={styleSheet.facebookIcon}></span>
-              <span style={styleSheet.buttonText}>Login with Facebook</span>
-            </div>
-          </div>
-          <form style={{ marginTop: 10 }}>
-            <label htmlFor="username">Username: </label>
-            <Input
-              type="text"
-              name="username"
-              value={username}
-              onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-                setUsername(event.target.value);
-              }}
-            />
-            <label htmlFor="password">Password: </label>
-            <Input
-              type="password"
-              name="password"
-              value={password}
-              onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-                setPassword(event.target.value);
-              }}
-            />
-            <Link to="/signup">Register</Link>
-            <FormBtn onClick={handleSubmit}>Login</FormBtn>
-          </form>
-        </Card>
+            <form style={{ marginTop: 10 }}>
+              <label htmlFor="username">Username: </label>
+              <Input
+                type="text"
+                name="username"
+                value={username}
+                onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                  setUsername(event.target.value);
+                }}
+              />
+              <label htmlFor="password">Password: </label>
+              <Input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                  setPassword(event.target.value);
+                }}
+              />
+              <Link to="/signup">Register</Link>
+              <FormBtn onClick={handleSubmit}>Login</FormBtn>
+            </form>
+          </Card>
+        </div>
       )}
     </>
   );

@@ -4,3 +4,23 @@ body {
   font-family: sans-serif;
   background: url("/joshua-bartell-6vvIBTvL90A-unsplash.jpg");
 }
+
+.auth-wrapper {
+  min-height: calc(100vh - 112px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainlogo {
+  animation: main-logo-spin infinite 3s linear;
+}
+
+@keyframes main-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

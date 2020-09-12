@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { useFirebaseAuth } from 'use-firebase-auth';
 import LoginForm from './pages/Auth/LoginForm';
 import SignupForm from './pages/Auth/SignupForm';
 import Nav from './components/Nav';
@@ -9,11 +10,11 @@ import NoMatch from './pages/NoMatch';
 interface Props {}
 
 const App: FC<Props> = () => {
-  const user = null;
+  const { user, signOut } = useFirebaseAuth();
   console.log(user);
-
   const logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
+    user && signOut();
   };
 
   const login = (username: string, password: string) => {
@@ -34,7 +35,7 @@ const App: FC<Props> = () => {
 
   return (
     <div className="App">
-      <Nav footer={false} {...user} logout={logout} />
+      <Nav footer={false} user={user} logout={logout} />
       {user && (
         <div className="main-view">
           <Switch>
@@ -44,7 +45,7 @@ const App: FC<Props> = () => {
         </div>
       )}
       {!user && (
-        <div className="auth-wrapper" style={{ paddingTop: '6%' }}>
+        <div className="auth-wrapper">
           <Switch>
             <Route exact path="/" component={() => <LoginForm login={login} socialLogin={socialLogin} />} />
             <Route exact path="/signup" component={SignupForm} />

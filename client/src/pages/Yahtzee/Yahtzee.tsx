@@ -12,7 +12,25 @@ function Yahtzee() {
     API.checkConnection().then((res: AxiosResponse) => console.log(res));
   }, []);
 
-  return <div></div>;
+  return (
+    <div
+      style={{
+        marginTop: '-4rem',
+        minHeight: 'calc(100vh - 112px)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <img
+        src="https://images.vexels.com/media/users/3/135811/isolated/preview/f3dc1094d770aadce0dff261623fddb6-dices-3d-icon-by-vexels.png"
+        width="300"
+        height="300"
+        className="d-inline-block align-top mainlogo"
+        alt="React Bootstrap logo"
+      />
+    </div>
+  );
 }
 
 export default Yahtzee;
