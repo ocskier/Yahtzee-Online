@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var express = require('express');
 var morgan = require('morgan');
 var session = require('express-session');
@@ -43,4 +45,3 @@ app.use(function (err, req, res, next) {
 app.listen(PORT, function () {
     console.log("\uD83C\uDF0E  ==> API Server now listening on PORT " + PORT + "!");
 });
-export {};

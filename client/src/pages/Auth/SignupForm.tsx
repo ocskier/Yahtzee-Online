@@ -1,21 +1,14 @@
 import React, { FC, ChangeEvent, useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
+
 import { Card } from '../../components/Card';
 import { Input, FormBtn } from '../../components/Form';
 
-import { AxiosResponse } from 'axios';
+import { useFirebaseAuth } from 'use-firebase-auth';
 
 import './Auth.css';
 
 interface Props {}
-interface State {
-  firstName: string;
-  lastName: string;
-  username: string;
-  password: string;
-  confirmPassword: string;
-  redirectTo: string | null;
-}
 
 const SignupForm: FC<Props> = () => {
   const [formState, setFormState] = useState({
@@ -27,6 +20,8 @@ const SignupForm: FC<Props> = () => {
   });
   const [redirectTo, setRedirectTo] = useState('');
 
+  const { createUserWithEmailAndPassword } = useFirebaseAuth();
+
   const handleChange = (event: ChangeEvent<{ name: string; value: unknown }>) => {
     const { name } = event.target;
     setFormState({
@@ -35,23 +30,12 @@ const SignupForm: FC<Props> = () => {
     });
   };
 
-  const handleSubmit = (event: MouseEvent) => {
+  const { username, password } = formState;
+
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    // TODO - validate!
-    // ({
-    //   firstName: this.state.firstName,
-    //   lastName: this.state.lastName,
-    //   username: this.state.username,
-    //   password: this.state.password,
-    // })
-    // if (!response.data.error) {
-    //   console.log('youre good');
-    //   this.setState({
-    //     redirectTo: '/',
-    //   });
-    // } else {
-    //   console.log('duplicate');
-    // }
+    createUserWithEmailAndPassword(username, password);
+    setRedirectTo('/');
   };
 
   if (redirectTo) {
@@ -62,16 +46,38 @@ const SignupForm: FC<Props> = () => {
     <div>
       <Card title="Lets Play Yahtzee!">
         <form style={{ marginTop: 10 }}>
-          <label htmlFor="username">First name: </label>
+          <label htmlFor="firstName">First name: </label>
           <Input type="text" name="firstName" value={formState.firstName} onChange={handleChange} />
-          <label htmlFor="username">Last name: </label>
+          <label htmlFor="lastName">Last name: </label>
           <Input type="text" name="lastName" value={formState.lastName} onChange={handleChange} />
           <label htmlFor="username">Username: </label>
-          <Input type="text" name="username" value={formState.username} onChange={handleChange} />
+          <Input
+            type="text"
+            name="username"
+            value={formState.username}
+            required
+            minLength="6"
+            onChange={handleChange}
+          />
           <label htmlFor="password">Password: </label>
-          <Input type="password" name="password" value={formState.password} onChange={handleChange} />
+          <Input
+            type="password"
+            name="password"
+            value={formState.password}
+            required
+            minLength="8"
+            onChange={handleChange}
+          />
           <label htmlFor="confirmPassword">Confirm Password: </label>
-          <Input type="password" name="confirmPassword" value={formState.confirmPassword} onChange={handleChange} />
+          <Input
+            type="password"
+            name="confirmPassword"
+            value={formState.confirmPassword}
+            required
+            minLength="8"
+            pattern={formState.password}
+            onChange={handleChange}
+          />
           <Link to="/">Login</Link>
           <FormBtn onClick={handleSubmit}>Register</FormBtn>
         </form>

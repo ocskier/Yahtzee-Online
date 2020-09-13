@@ -12,25 +12,10 @@ interface Props {}
 const App: FC<Props> = () => {
   const { user, signOut } = useFirebaseAuth();
   console.log(user);
+
   const logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
     user && signOut();
-  };
-
-  const login = (username: string, password: string) => {
-    //   console.log(response);
-    //   if (response.status === 200) {
-    //     // update the state
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.log(err.response.data.message);
-    // });
-  };
-
-  const socialLogin = (userObj: any) => {
-    userObj && delete userObj.tokenData;
-    // userObj &&
   };
 
   return (
@@ -39,7 +24,7 @@ const App: FC<Props> = () => {
       {user && (
         <div className="main-view">
           <Switch>
-            <Route exact path="/" component={Yahtzee} />
+            <Route exact path={['/', 'signup']} component={Yahtzee} />
             <Route component={NoMatch} />
           </Switch>
         </div>
@@ -47,7 +32,7 @@ const App: FC<Props> = () => {
       {!user && (
         <div className="auth-wrapper">
           <Switch>
-            <Route exact path="/" component={() => <LoginForm login={login} socialLogin={socialLogin} />} />
+            <Route exact path="/" component={() => <LoginForm />} />
             <Route exact path="/signup" component={SignupForm} />
           </Switch>
         </div>

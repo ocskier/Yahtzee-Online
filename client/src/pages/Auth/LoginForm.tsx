@@ -69,13 +69,10 @@ const styleSheet: StyleTypes = {
   },
 };
 
-interface LoginProps {
-  login: (username: string, password: string) => void;
-  socialLogin: (userObj: any) => void;
-}
+interface LoginProps {}
 
-const LoginForm: FC<LoginProps> = (props) => {
-  const { loading, error, signInWithProvider } = useFirebaseAuth();
+const LoginForm: FC<LoginProps> = () => {
+  const { loading, error, signInWithProvider, signInWithEmailAndPassword } = useFirebaseAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [redirectTo, setRedirectTo] = useState('');
@@ -83,20 +80,10 @@ const LoginForm: FC<LoginProps> = (props) => {
   const handleSubmit = (event: MouseEvent) => {
     event.preventDefault();
     console.log('handleSubmit');
-    props.login(username, password);
+    signInWithEmailAndPassword(username, password);
   };
 
-  const onGoogleSubmit = () => signInWithProvider('google');
-
-  const onSuccessHandler = (data: any) => {
-    data &&
-      props.socialLogin({
-        token: data.accessToken,
-        socialId: data.googleId,
-        profile: data.profileObj,
-        tokenData: data.tokenObj,
-      });
-  };
+  const onSocialSubmit = (provider: string) => signInWithProvider(provider);
 
   return (
     <>
@@ -108,11 +95,11 @@ const LoginForm: FC<LoginProps> = (props) => {
         <div style={styleSheet.signInCard}>
           <Card title="Lets Play Yahtzee!">
             <div>
-              <div style={styleSheet.socialFab} onClick={onGoogleSubmit}>
+              <div style={styleSheet.socialFab} onClick={() => onSocialSubmit('google')}>
                 <span style={styleSheet.googleIcon}></span>
                 <span style={styleSheet.buttonText}>Login with Google</span>
               </div>
-              <div style={styleSheet.socialFab} onClick={() => null}>
+              <div style={styleSheet.socialFab} onClick={() => onSocialSubmit('facebook')}>
                 <span style={styleSheet.facebookIcon}></span>
                 <span style={styleSheet.buttonText}>Login with Facebook</span>
               </div>

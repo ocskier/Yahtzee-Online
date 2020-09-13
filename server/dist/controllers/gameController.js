@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var db = require('../models');
 // Defining methods for the ModelsController
 module.exports = {
@@ -29,4 +31,3 @@ module.exports = {
             .catch(function (err) { return res.status(422).json(err); });
     },
 };
-export {};
