@@ -103,9 +103,9 @@ class App extends Component<Props, State> {
       <div className="App">
         <Nav footer={false} {...this.state} logout={this.logout} />
         {this.state.loggedIn && (
-          <div className="main-view">
+          <div className="main-view container-fluid">
             <Switch>
-              <Route exact path="/" component={Yahtzee} />
+              <Route exact path="/" component={() => <Yahtzee user={this.state.user} />} />
               <Route component={NoMatch} />
             </Switch>
           </div>
@@ -115,6 +115,7 @@ class App extends Component<Props, State> {
             <Switch>
               <Route exact path="/" component={() => <LoginForm login={this.login} socialLogin={this.socialLogin} />} />
               <Route exact path="/signup" component={SignupForm} />
+              <Route component={NoMatch} />
             </Switch>
           </div>
         )}

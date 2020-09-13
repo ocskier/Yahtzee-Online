@@ -70,7 +70,7 @@ class SignupForm extends Component<Props, State> {
     return (
       <Container>
         <Card title="Lets Play Yahtzee!">
-          <form style={{ marginTop: 10 }}>
+          <form style={{ minWidth: '325px', marginTop: 10 }}>
             <label htmlFor="username">First name: </label>
             <Input type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
             <label htmlFor="username">Last name: </label>
