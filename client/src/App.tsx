@@ -7,6 +7,8 @@ import Nav from './components/Nav';
 import Yahtzee from './pages/Yahtzee';
 import NoMatch from './pages/NoMatch';
 
+import './App.css';
+
 interface Props {}
 
 const App: FC<Props> = () => {
@@ -22,7 +24,7 @@ const App: FC<Props> = () => {
     <div className="App">
       <Nav footer={false} user={user} logout={logout} />
       {user && (
-        <div className="main-view">
+        <div className="main-view container-fluid">
           <Switch>
             <Route exact path={['/', 'signup']} component={Yahtzee} />
             <Route component={NoMatch} />
@@ -34,6 +36,7 @@ const App: FC<Props> = () => {
           <Switch>
             <Route exact path="/" component={() => <LoginForm />} />
             <Route exact path="/signup" component={SignupForm} />
+            <Route component={NoMatch} />
           </Switch>
         </div>
       )}

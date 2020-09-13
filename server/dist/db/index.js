@@ -12,7 +12,7 @@ if (process.env.MONGODB_URI) {
     MONGO_URL = process.env.MONGODB_URI;
 }
 else {
-    mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true }); // local mongo url
+    mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true, useUnifiedTopology: true }); // local mongo url
     MONGO_URL = MONGO_LOCAL_URL;
 }
 // should mongoose.connection be put in the call back of mongoose.connect???

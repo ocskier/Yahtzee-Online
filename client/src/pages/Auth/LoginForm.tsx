@@ -25,6 +25,7 @@ const styleSheet: StyleTypes = {
   socialDiv: {
     display: 'flex',
     flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   buttonText: {
     display: 'inline-block',
@@ -42,7 +43,7 @@ const styleSheet: StyleTypes = {
     background: 'white',
     color: '#444',
     width: 'auto',
-    minWidth: '250px',
+    maxWidth: '240px',
     borderRadius: '5px',
     border: 'thin solid #888',
     boxShadow: '1px 1px 1px grey',
