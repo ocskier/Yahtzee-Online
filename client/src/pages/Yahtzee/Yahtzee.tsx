@@ -43,7 +43,7 @@ function Yahtzee() {
   useEffect(() => {
     console.log(socket);
     if (Object.keys(socket).length !== 0) {
-      socket.emit('data', 'IPA');
+      socket.emit('data', 'yahtzee');
       socket.on('tweet', (data: any) => {
         console.log(data);
         setTweets((tweets: any[]) => [...tweets, data.id_str]);
@@ -167,7 +167,10 @@ function Yahtzee() {
                 Chat
               </Button>
               {tweets.length > 0 && (
-                <ListGroup className="list-group-flush" style={{ minHeight: '100px', overflow: 'scroll' }}>
+                <ListGroup
+                  className="list-group-flush"
+                  style={{ minHeight: '100px', overflow: 'scroll', flexDirection: 'column-reverse' }}
+                >
                   {tweets.map((tweet: any, i: number) => (
                     <TwitterTweetEmbed key={i} tweetId={tweet} />
                   ))}
