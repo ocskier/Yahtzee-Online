@@ -63,7 +63,7 @@ const myServer = app.listen(PORT, () => {
 const mySocket = io(myServer);
 
 // Socket scripts
-mySocket.on('connection', function (socket: Socket) {
+mySocket.sockets.on('connection', function (socket: Socket) {
   console.log('User connected');
   socket.on('data', function (data: any) {
     tw.track(data);
@@ -79,10 +79,11 @@ mySocket.on('connection', function (socket: Socket) {
     });
   });
   socket.on('chat', function (text: string, user: any) {
-    console.log(`${user.googleId} - ${text}`);
-    delete user.googleId;
+    console.log(`${user.uid} - ${text}`);
+    delete user.uid;
     socket.emit('chat', text, user);
     socket.broadcast.emit('chat', text, user);
+    socket.broadcast.emit('chat', 'Hey!', { uid: '99999999', displayName: 'Dude!' });
   });
   socket.on('disconnect', () => {
     console.log('user disconnected');

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AxiosResponse } from 'axios';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
@@ -8,6 +8,8 @@ import { useFirebaseAuth } from 'use-firebase-auth';
 import { Button, Card, Container, Form, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap';
 
 import API from '../../utils/API';
+
+import './Yahtzee.css';
 
 const styles = {
   chatMsg: {
@@ -27,53 +29,54 @@ const styles = {
 function Yahtzee() {
   const [players, setPlayers] = useState([]);
   const [socket, setSocket] = useState({} as SocketIOClient.Socket);
-  const [incomingMsgs, setIncomingMsgs] = useState([]);
-  const [tweets, setTweets] = useState([]);
+  const [incomingMsgs, setIncomingMsgs] = useState([] as any);
+  const [tweets, setTweets] = useState([] as any);
   const [outgoingMsg, setOutgoingMsg] = useState('');
-  const [endpoint, setEndpoint] = useState(`http://localhost:3001/`);
-
+  const [endpoint, setEndpoint] = useState('http://localhost:3001/');
   const { user } = useFirebaseAuth();
 
   useEffect(() => {
-    setSocket(ioClient(process.env.NODE_ENV === 'production' ? window.location.hostname : endpoint));
-  }, []);
-
-  // componentWillUnmount() {
-  //   this.state.socket && this.state.socket.close();
-  // }
-
-  const socketCb = useCallback(() => {
-    console.log(socket);
     API.checkConnection().then((res: AxiosResponse) => console.log(res.data.msg));
-    socket.emit('data', 'yahtzee');
-    socket.on('tweet', (data: any) => {
-      console.log(data);
-      let tweetHistory: any = tweets;
-      tweetHistory.unshift(data.id_str);
-      setTweets(tweetHistory);
-    });
-    socket.on('chat', (msg: string, chatUser: any) => {
-      console.log(incomingMsgs, tweets);
-      let newMsgArr: any = incomingMsgs;
-      console.log(newMsgArr);
-      var messageBody = document.querySelector('#chatBody');
-      messageBody!.scrollTop = messageBody!.scrollHeight - messageBody!.clientHeight;
-      newMsgArr.push({
-        senderInfo: chatUser,
-        msgTxt: msg,
+    setSocket(ioClient(process.env.NODE_ENV === 'production' ? window.location.hostname : endpoint));
+  }, [endpoint]);
+
+  useEffect(() => {
+    console.log(socket);
+    if (Object.keys(socket).length !== 0) {
+      socket.emit('data', 'IPA');
+      socket.on('tweet', (data: any) => {
+        console.log(data);
+        setTweets((tweets: any[]) => [...tweets, data.id_str]);
       });
-      setIncomingMsgs(newMsgArr);
-    });
+      socket.on('chat', (msg: string, chatUser: any) => {
+        var messageBody = document.querySelector('#chatBody');
+        messageBody!.scrollTop = messageBody!.scrollHeight - messageBody!.clientHeight;
+        setIncomingMsgs((incomingMsgs: any[]) => [
+          ...incomingMsgs,
+          {
+            senderInfo: chatUser,
+            msgTxt: msg,
+          },
+        ]);
+      });
+    }
   }, [socket]);
 
-  const incomingMsgCb = useCallback(() => {
+  useEffect(() => {
     const messageBody = document.querySelector('#chatBody');
     messageBody!.scrollTop = messageBody!.scrollHeight - messageBody!.clientHeight;
   }, [incomingMsgs]);
 
   const submitHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     let msg = outgoingMsg;
-    socket && socket.emit('chat', msg, user);
+    socket &&
+      user &&
+      socket.emit('chat', msg, {
+        uid: user.uid,
+        displayName: user.displayName,
+        emailVerified: user.emailVerified,
+        photoURL: user.photoURL,
+      });
     setOutgoingMsg('');
   };
 
@@ -113,18 +116,14 @@ function Yahtzee() {
               maxWidth: '1160px',
               background: 'white',
               minHeight: '626px',
-              margin: '40px',
+              margin: '0',
               borderRadius: '5%',
+              height: '100%',
             }}
           ></Container>
         </Col>
         <Col md={3}>
-          <Card style={{ margin: '40px auto 0', maxHeight: '660px', width: '100%' }}>
-            <Card.Img
-              height={100}
-              variant="top"
-              src="https://images.vexels.com/media/users/3/135811/isolated/preview/f3dc1094d770aadce0dff261623fddb6-dices-3d-icon-by-vexels.png"
-            />
+          <Card style={{ margin: '40px auto 0', minHeight: '460px', width: '100%' }}>
             <Card.Body>
               <Card.Title>Stream</Card.Title>
               <Card.Text>Players Chat Area</Card.Text>
@@ -133,7 +132,7 @@ function Yahtzee() {
               id="chatBody"
               className="list-group-flush"
               style={{
-                padding: 30,
+                padding: '0.2rem',
                 border: 'solid 5px blue',
                 display: 'flex',
                 flexDirection: 'column',
@@ -146,8 +145,8 @@ function Yahtzee() {
                 incomingMsgs.map(
                   (msg: any, i: number) =>
                     user && (
-                      <ListGroupItem key={i} style={user.uid === msg.senderInfo._id ? styles.chatMsg : styles.chatMsg}>
-                        {msg.senderInfo.givenName} - {msg.msgTxt}
+                      <ListGroupItem key={i} style={user.uid === msg.senderInfo.uid ? styles.chatMsg : styles.chatMsg}>
+                        {msg.senderInfo.displayName} - {msg.msgTxt}
                       </ListGroupItem>
                     ),
                 )}
@@ -167,20 +166,14 @@ function Yahtzee() {
               <Button variant="primary" onClick={submitHandler}>
                 Chat
               </Button>
+              {tweets.length > 0 && (
+                <ListGroup className="list-group-flush" style={{ minHeight: '100px', overflow: 'scroll' }}>
+                  {tweets.map((tweet: any, i: number) => (
+                    <TwitterTweetEmbed key={i} tweetId={tweet} />
+                  ))}
+                </ListGroup>
+              )}
             </Card.Body>
-            <ListGroup
-              className="list-group-flush"
-              style={{ overflow: 'auto', minHeight: '100px', maxHeight: '425px' }}
-            >
-              {tweets &&
-                tweets.map((tweet: any, i: number) => {
-                  return (
-                    <ListGroupItem key={i}>
-                      <TwitterTweetEmbed tweetId={tweet} />
-                    </ListGroupItem>
-                  );
-                })}
-            </ListGroup>
           </Card>
         </Col>
       </Row>

@@ -11,7 +11,7 @@ interface NavProps {
   footer: boolean | undefined;
   loggedIn?: boolean;
   user?: any | null;
-  logout?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  signOut?: () => Promise<void>;
 }
 
 const NavBar: FC<NavProps> = (props) => {
@@ -26,6 +26,11 @@ const NavBar: FC<NavProps> = (props) => {
       </Fragment>
     );
   }
+
+  const logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
+    props.user && props.signOut && props.signOut();
+  };
 
   return (
     <Navbar
@@ -47,7 +52,7 @@ const NavBar: FC<NavProps> = (props) => {
           </Navbar.Brand>
           <Nav className="flex-column">
             <Navbar.Text>{greeting}</Navbar.Text>
-            <Link onClick={props.logout} to="/" className="logout">
+            <Link onClick={logout} to="/" className="logout">
               {props.user ? 'Logout' : 'Login'}
             </Link>
           </Nav>

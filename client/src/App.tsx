@@ -14,15 +14,9 @@ interface Props {}
 const App: FC<Props> = () => {
   const { user, signOut } = useFirebaseAuth();
   console.log(user);
-
-  const logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    event.preventDefault();
-    user && signOut();
-  };
-
   return (
     <div className="App">
-      <Nav footer={false} user={user} logout={logout} />
+      <Nav footer={false} user={user} signOut={signOut} />
       {user && (
         <div className="main-view container-fluid">
           <Switch>
@@ -34,7 +28,7 @@ const App: FC<Props> = () => {
       {!user && (
         <div className="auth-wrapper">
           <Switch>
-            <Route exact path="/" component={() => <LoginForm />} />
+            <Route exact path="/" component={LoginForm} />
             <Route exact path="/signup" component={SignupForm} />
             <Route component={NoMatch} />
           </Switch>

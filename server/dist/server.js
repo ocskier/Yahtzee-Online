@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require('dotenv').config();
 var express = require('express');
 var morgan = require('morgan');
 var session = require('express-session');
@@ -49,7 +50,7 @@ var myServer = app.listen(PORT, function () {
 });
 var mySocket = io(myServer);
 // Socket scripts
-mySocket.on('connection', function (socket) {
+mySocket.sockets.on('connection', function (socket) {
     console.log('User connected');
     socket.on('data', function (data) {
         tw.track(data);
@@ -65,10 +66,11 @@ mySocket.on('connection', function (socket) {
         });
     });
     socket.on('chat', function (text, user) {
-        console.log(user.googleId + " - " + text);
-        delete user.googleId;
+        console.log(user.uid + " - " + text);
+        delete user.uid;
         socket.emit('chat', text, user);
         socket.broadcast.emit('chat', text, user);
+        socket.broadcast.emit('chat', 'Hey!', { uid: '99999999', displayName: 'Dude!' });
     });
     socket.on('disconnect', function () {
         console.log('user disconnected');
