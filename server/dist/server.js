@@ -1,8 +1,5 @@
-// Loading evnironmental variables here
-if (process.env.NODE_ENV !== 'production') {
-    console.log('loading dev environments');
-    require('dotenv').config();
-}
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 var express = require('express');
 var morgan = require('morgan');
@@ -11,7 +8,15 @@ var MongoStore = require('connect-mongo')(session);
 var dbConnection = require('./db'); // loads our connection to the mongo database
 var routes = require('./routes');
 var app = express();
+var io = require('socket.io');
+var tw = require('./sockets/twitterSocket');
 var PORT = process.env.PORT || 3001;
+// Loading evnironmental variables here
+if (process.env.NODE_ENV !== 'production') {
+    console.log('loading dev environments');
+    require('dotenv').config();
+}
+require('dotenv').config();
 // Middlewares
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
@@ -40,6 +45,34 @@ app.use(function (err, req, res, next) {
     res.status(500);
 });
 // Starting Server
-app.listen(PORT, function () {
+var myServer = app.listen(PORT, function () {
     console.log("\uD83C\uDF0E  ==> API Server now listening on PORT " + PORT + "!");
+});
+var mySocket = io(myServer);
+// Socket scripts
+mySocket.sockets.on('connection', function (socket) {
+    console.log('User connected');
+    socket.on('data', function (data) {
+        tw.track(data);
+        console.log("Tweeting about " + data + "!");
+        tw.on('tweet', function (tweet) {
+            console.log(tweet.text);
+            socket.emit('tweet', tweet);
+            // socket.emit('tweet', tweet);
+        });
+        socket.on('disconnect', function () {
+            console.log('user disconnected');
+            tw.untrack(data);
+        });
+    });
+    socket.on('chat', function (text, user) {
+        console.log(user.uid + " - " + text);
+        delete user.uid;
+        socket.emit('chat', text, user);
+        socket.broadcast.emit('chat', text, user);
+        socket.broadcast.emit('chat', 'Hey!', { uid: '99999999', displayName: 'Dude!' });
+    });
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+    });
 });

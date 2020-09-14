@@ -6,13 +6,13 @@ import { MongoError } from 'mongodb';
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 let MONGO_URL: string;
-const MONGO_LOCAL_URL = 'mongodb://localhost/reactreadinglist-auth';
+const MONGO_LOCAL_URL = 'mongodb://localhost/yahtzee';
 
 if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
   MONGO_URL = process.env.MONGODB_URI;
 } else {
-  mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true }); // local mongo url
+  mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true, useUnifiedTopology: true }); // local mongo url
   MONGO_URL = MONGO_LOCAL_URL;
 }
 

@@ -1,0 +1,13 @@
+.twitter-tweet {
+    max-height: 50px;
+    transition: max-height 1.2s;
+    overflow: hidden;
+}
+
+.twitter-tweet:hover {
+    max-height: 480px;
+}
+
+.twitter-tweet:active {
+
+}

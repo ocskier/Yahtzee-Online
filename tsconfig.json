@@ -14,21 +14,15 @@
         "allowSyntheticDefaultImports": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
-        "module": "esnext",
+        "module": "commonjs",
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "noEmit": true,
+        "noEmit": false,
         "baseUrl": "./server",
-        "outDir": "./server/dist",
-        // "paths": {
-        //     "*": [
-        //         "node_modules/*",
-        //         "types/*"
-        //     ]
-        // },
+        "outDir": "./server/dist"
     },
     "include": [
-        "server/**/*"
+        "server/**/*.ts"
     ],
     "exclude": [
         "node_modules"

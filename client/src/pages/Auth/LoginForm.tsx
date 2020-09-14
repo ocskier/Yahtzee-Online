@@ -1,17 +1,16 @@
-import React, { Component, MouseEvent } from 'react';
+import React, { FC, useState, MouseEvent } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
-import { ReactFacebookLoginInfo, ReactFacebookFailureResponse } from 'react-facebook-login';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { useFirebaseAuth } from 'use-firebase-auth';
 
 // Import App Components
-import { Container } from '../../components/Grid';
 import { Card } from '../../components/Card';
 import { Input, FormBtn } from '../../components/Form';
+import CircularProgress from '../../components/Progress';
 
 import './Auth.css';
 
 interface StyleTypes {
+  signInCard: any;
   socialDiv: any;
   buttonText: any;
   socialFab: any;
@@ -20,6 +19,9 @@ interface StyleTypes {
 }
 
 const styleSheet: StyleTypes = {
+  signInCard: {
+    marginTop: '-10rem',
+  },
   socialDiv: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -68,108 +70,68 @@ const styleSheet: StyleTypes = {
   },
 };
 
-interface LoginProps {
-  login: (username: string, password: string) => void;
-  socialLogin: (userObj: any) => void;
-}
+interface LoginProps {}
 
-interface LoginState {
-  username: string;
-  password: string;
-  redirectTo: string | null;
-}
+const LoginForm: FC<LoginProps> = () => {
+  const { loading, error, signInWithProvider, signInWithEmailAndPassword } = useFirebaseAuth();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [redirectTo, setRedirectTo] = useState('');
 
-class LoginForm extends Component<LoginProps, LoginState> {
-  constructor(props: LoginProps) {
-    super(props);
-
-    this.state = {
-      username: '',
-      password: '',
-      redirectTo: null,
-    };
-  }
-
-  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
-    this.setState(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  handleSubmit = (event: MouseEvent) => {
+  const handleSubmit = (event: MouseEvent) => {
     event.preventDefault();
     console.log('handleSubmit');
-    this.props.login(this.state.username, this.state.password);
-    // this.setState({
-    // 	redirectTo: '/'
-    // });
+    signInWithEmailAndPassword(username, password);
   };
 
-  onFailureHandler = (error: any) => console.log(error);
+  const onSocialSubmit = (provider: string) => signInWithProvider(provider);
 
-  onSuccessHandler = (data: any) => {
-    data &&
-      this.props.socialLogin({
-        token: data.accessToken,
-        socialId: data.googleId,
-        profile: data.profileObj,
-        tokenData: data.tokenObj,
-      });
-  };
-
-  responseFacebook = (response: ReactFacebookLoginInfo | ReactFacebookFailureResponse) => {
-    console.log(response);
-  };
-
-  render() {
-    return (
-      <Container>
-        {this.state.redirectTo ? (
-          <Redirect to={{ pathname: this.state.redirectTo }} />
-        ) : (
+  return (
+    <>
+      {redirectTo ? (
+        <Redirect to={{ pathname: redirectTo }} />
+      ) : loading ? (
+        <CircularProgress />
+      ) : (
+        <div style={styleSheet.signInCard}>
           <Card title="Lets Play Yahtzee!">
-            <div style={styleSheet.socialDiv}>
-              <GoogleLogin
-                clientId="861473397675-0ci55ekv78thhu1o408ig91qo2dl2bcq.apps.googleusercontent.com"
-                onSuccess={this.onSuccessHandler}
-                onFailure={this.onFailureHandler}
-                cookiePolicy={'single_host_origin'}
-                buttonText="Login"
-                render={renderProps => (
-                  <div style={styleSheet.socialFab} onClick={renderProps.onClick}>
-                    <span style={styleSheet.googleIcon}></span>
-                    <span style={styleSheet.buttonText}>Login with Google</span>
-                  </div>
-                )}
-              />
-              <FacebookLogin
-                appId="2571464129607396"
-                callback={this.responseFacebook}
-                cssClass="my-facebook-button-class"
-                fields="name,email,picture"
-                render={(renderProps: any) => (
-                  <div style={styleSheet.socialFab} onClick={renderProps.onClick}>
-                    <span style={styleSheet.facebookIcon}></span>
-                    <span style={styleSheet.buttonText}>Login with Facebook</span>
-                  </div>
-                )}
-              />
+            <div>
+              <div style={styleSheet.socialFab} onClick={() => onSocialSubmit('google')}>
+                <span style={styleSheet.googleIcon}></span>
+                <span style={styleSheet.buttonText}>Login with Google</span>
+              </div>
+              <div style={styleSheet.socialFab} onClick={() => onSocialSubmit('facebook')}>
+                <span style={styleSheet.facebookIcon}></span>
+                <span style={styleSheet.buttonText}>Login with Facebook</span>
+              </div>
             </div>
             <form style={{ marginTop: 10 }}>
               <label htmlFor="username">Username: </label>
-              <Input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
+              <Input
+                type="text"
+                name="username"
+                value={username}
+                onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                  setUsername(event.target.value);
+                }}
+              />
               <label htmlFor="password">Password: </label>
-              <Input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
+              <Input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                  setPassword(event.target.value);
+                }}
+              />
               <Link to="/signup">Register</Link>
-              <FormBtn onClick={this.handleSubmit}>Login</FormBtn>
+              <FormBtn onClick={handleSubmit}>Login</FormBtn>
             </form>
           </Card>
-        )}
-      </Container>
-    );
-  }
-}
+        </div>
+      )}
+    </>
+  );
+};
 
 export default LoginForm;

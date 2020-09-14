@@ -1,16 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /* Mongo Database
  * - this is where we set up our connection to the mongo database
  */
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var MONGO_URL;
-var MONGO_LOCAL_URL = 'mongodb://localhost/reactreadinglist-auth';
+var MONGO_LOCAL_URL = 'mongodb://localhost/yahtzee';
 if (process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+    mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
     MONGO_URL = process.env.MONGODB_URI;
 }
 else {
-    mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true }); // local mongo url
+    mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true, useUnifiedTopology: true }); // local mongo url
     MONGO_URL = MONGO_LOCAL_URL;
 }
 // should mongoose.connection be put in the call back of mongoose.connect???

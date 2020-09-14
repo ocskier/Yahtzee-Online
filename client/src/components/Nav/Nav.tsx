@@ -11,27 +11,26 @@ interface NavProps {
   footer: boolean | undefined;
   loggedIn?: boolean;
   user?: any | null;
-  logout?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  signOut?: () => Promise<void>;
 }
 
-const NavBar: FC<NavProps> = props => {
+const NavBar: FC<NavProps> = (props) => {
   let greeting;
 
-  if (props.user === null) {
+  if (!props.user) {
     greeting = <p>Hello guest</p>;
-  } else if (props.user && props.user.givenName) {
+  } else if (props.user && props.user.displayName) {
     greeting = (
       <Fragment>
-        Welcome back, <strong>{props.user.givenName}</strong>
-      </Fragment>
-    );
-  } else if (props.user && props.user.username) {
-    greeting = (
-      <Fragment>
-        Welcome back, <strong>{props.user.username} </strong>
+        Welcome back, <strong>{props.user.displayName}</strong>
       </Fragment>
     );
   }
+
+  const logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
+    props.user && props.signOut && props.signOut();
+  };
 
   return (
     <Navbar
@@ -53,8 +52,8 @@ const NavBar: FC<NavProps> = props => {
           </Navbar.Brand>
           <Nav className="flex-column">
             <Navbar.Text>{greeting}</Navbar.Text>
-            <Link onClick={props.logout} to="/" className="logout">
-              {props.loggedIn ? 'Logout' : 'Login'}
+            <Link onClick={logout} to="/" className="logout">
+              {props.user ? 'Logout' : 'Login'}
             </Link>
           </Nav>
         </>
