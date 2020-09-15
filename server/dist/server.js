@@ -31,9 +31,9 @@ app.use(session({
 if (process.env.NODE_ENV === 'production') {
     var path_1 = require('path');
     console.log('YOU ARE IN THE PRODUCTION ENV');
-    app.use(express.static(path_1.join(__dirname, '../client/build')));
+    app.use(express.static(path_1.join(__dirname, '../../client/build')));
     app.get('/', function (req, res) {
-        res.sendFile(path_1.join(__dirname, './client/build/'));
+        res.sendFile(path_1.join(__dirname, '../client/build/'));
     });
 }
 // Add routes, both API and view
