@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
     console.log('YOU ARE IN THE PRODUCTION ENV');
     app.use(express.static(path_1.join(__dirname, '../../client/build')));
     app.get('/', function (req, res) {
-        res.sendFile(path_1.join(__dirname, '../client/build/'));
+        res.sendFile(path_1.join(__dirname, './client/build/'));
     });
 }
 // Add routes, both API and view

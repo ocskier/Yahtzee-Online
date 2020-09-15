@@ -11,6 +11,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+console.log(process.env);
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
