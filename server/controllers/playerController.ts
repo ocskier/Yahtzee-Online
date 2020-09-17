@@ -6,30 +6,30 @@ import { Error } from 'mongoose';
 
 module.exports = {
   findAll: function (req: Request, res: Response) {
-    db.Game.find(req.query)
+    db.Player.find(req.query)
       .sort({ date: -1 })
-      .then((dbGame: IPlayer) => res.json(dbGame))
+      .then((dbPlayer: IPlayer) => res.json(dbPlayer))
       .catch((err: Error) => res.status(422).json(err));
   },
   findById: function (req: Request, res: Response) {
-    db.Game.findById(req.params.id)
-      .then((dbGame: IPlayer) => res.json(dbGame))
+    db.Player.findById(req.params.id)
+      .then((dbPlayer: IPlayer) => res.json(dbPlayer))
       .catch((err: Error) => res.status(422).json(err));
   },
   create: function (req: Request, res: Response) {
-    db.Game.create(req.body)
-      .then((dbGame: IPlayer) => res.json(dbGame))
+    db.Player.create(req.body)
+      .then((dbPlayer: IPlayer) => res.json(dbPlayer))
       .catch((err: Error) => res.status(422).json(err));
   },
   update: function (req: Request, res: Response) {
-    db.Game.findOneAndUpdate({ _id: req.params.id }, req.body)
-      .then((dbGame: IPlayer) => res.json(dbGame))
+    db.Player.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then((dbPlayer: IPlayer) => res.json(dbPlayer))
       .catch((err: Error) => res.status(422).json(err));
   },
   remove: function (req: Request, res: Response) {
-    db.Game.findById({ _id: req.params.id })
-      // .then((dbGame: IPlayer) => dbGame.remove())
-      .then((dbGame: IPlayer) => res.json(dbGame))
+    db.Player.findById({ _id: req.params.id })
+      // .then((dbPlayer: IPlayer) => dbPlayer.remove())
+      .then((dbPlayer: IPlayer) => res.json(dbPlayer))
       .catch((err: Error) => res.status(422).json(err));
   },
 };

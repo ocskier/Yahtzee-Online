@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var router = require('express').Router();
-var gameRoutes = require('./game');
+// const gameRoutes = require('./game');
 var playerRoutes = require('./player');
 router.route('/').get(function (req, res) {
     res.json({
@@ -9,5 +9,5 @@ router.route('/').get(function (req, res) {
     });
 });
 router.use('/player', playerRoutes);
-router.use('/game', gameRoutes);
+// router.use('/game', gameRoutes);
 module.exports = router;
