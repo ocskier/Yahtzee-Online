@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 export interface IPlayer extends MongooseDocument {
-  uid: String;
-  fullName: String;
+  uid: string;
+  fullName: string;
 }
 
 const playerSchema = new Schema({

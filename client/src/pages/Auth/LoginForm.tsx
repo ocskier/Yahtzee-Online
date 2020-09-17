@@ -73,15 +73,14 @@ const styleSheet: StyleTypes = {
 interface LoginProps {}
 
 const LoginForm: FC<LoginProps> = () => {
-  const { loading, error, signInWithProvider, signInWithEmailAndPassword } = useFirebaseAuth();
+  const { loading, signInWithProvider, signInWithEmailAndPassword } = useFirebaseAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [redirectTo, setRedirectTo] = useState('');
+  const [redirectTo] = useState('');
 
-  const handleSubmit = (event: MouseEvent) => {
+  const handleSubmit = async (event: MouseEvent) => {
     event.preventDefault();
-    console.log('handleSubmit');
-    signInWithEmailAndPassword(username, password);
+    await signInWithEmailAndPassword(username, password);
   };
 
   const onSocialSubmit = (provider: string) => signInWithProvider(provider);

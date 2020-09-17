@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Nav, Navbar } from 'react-bootstrap';
 
-import { User } from '../../GlobalTypes/globaltypes';
+// import { User } from '../../GlobalTypes/globaltypes';
 
 import './Nav.css';
 

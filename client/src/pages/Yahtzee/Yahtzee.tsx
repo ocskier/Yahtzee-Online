@@ -27,12 +27,12 @@ const styles = {
 };
 
 function Yahtzee() {
-  const [players, setPlayers] = useState([]);
+  // const [players, setPlayers] = useState([]);
   const [socket, setSocket] = useState({} as SocketIOClient.Socket);
   const [incomingMsgs, setIncomingMsgs] = useState([] as any);
   const [tweets, setTweets] = useState([] as any);
   const [outgoingMsg, setOutgoingMsg] = useState('');
-  const [endpoint, setEndpoint] = useState('http://localhost:3001/');
+  const [endpoint] = useState('http://localhost:3001/');
   const { user } = useFirebaseAuth();
 
   useEffect(() => {
@@ -41,7 +41,6 @@ function Yahtzee() {
   }, [endpoint]);
 
   useEffect(() => {
-    console.log(socket);
     if (Object.keys(socket).length !== 0) {
       socket.emit('data', 'yahtzee');
       socket.on('tweet', (data: any) => {

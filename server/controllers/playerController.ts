@@ -17,6 +17,7 @@ module.exports = {
       .catch((err: Error) => res.status(422).json(err));
   },
   create: function (req: Request, res: Response) {
+    console.log(req.body);
     db.Player.create(req.body)
       .then((dbPlayer: IPlayer) => res.json(dbPlayer))
       .catch((err: Error) => res.status(422).json(err));

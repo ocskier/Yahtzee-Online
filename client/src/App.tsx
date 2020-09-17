@@ -12,15 +12,14 @@ import './App.css';
 interface Props {}
 
 const App: FC<Props> = () => {
-  const { user, signOut } = useFirebaseAuth();
-  console.log(user);
+  const { user, error, signOut } = useFirebaseAuth();
   return (
     <div className="App">
       <Nav footer={false} user={user} signOut={signOut} />
       {user && (
         <div className="main-view container-fluid">
           <Switch>
-            <Route exact path={['/', 'signup']} component={Yahtzee} />
+            <Route exact path={['/', '/signup']} component={Yahtzee} />
             <Route component={NoMatch} />
           </Switch>
         </div>

@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, useState, useEffect } from 'react';
+import React, { FC, ChangeEvent, useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
 import { Card } from '../../components/Card';
@@ -20,9 +20,9 @@ const SignupForm: FC<Props> = () => {
     password: '',
     confirmPassword: '',
   });
-  const [redirectTo, setRedirectTo] = useState('');
+  const [redirectTo ] = useState('');
 
-  const { user, createUserWithEmailAndPassword } = useFirebaseAuth();
+  const { createUserWithEmailAndPassword } = useFirebaseAuth();
 
   const handleChange = (event: ChangeEvent<{ name: string; value: unknown }>) => {
     const { name } = event.target;
@@ -36,16 +36,13 @@ const SignupForm: FC<Props> = () => {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    await createUserWithEmailAndPassword(username, password);
+    const credentials = await createUserWithEmailAndPassword(username, password);
+    credentials && handlePlayerCreation(credentials);
   };
-
-  useEffect(() => {
-    const handlePlayerCreation = async () => {
-      await API.createPlayer({uid: user.uid, fullName: user.displayName})
-      setRedirectTo('/');
-    }
-    user && handlePlayerCreation();
-  },[createUserWithEmailAndPassword]);
+  const handlePlayerCreation = async (cred: firebase.auth.UserCredential) => {
+    console.log("Running player creation")
+    await API.createPlayer({uid: cred.user.uid, fullName: cred.user.displayName})
+  }
 
   if (redirectTo) {
     return <Redirect to={{ pathname: redirectTo }} />;

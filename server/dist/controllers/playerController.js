@@ -3,30 +3,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var db = require('../models');
 module.exports = {
     findAll: function (req, res) {
-        db.Game.find(req.query)
+        db.Player.find(req.query)
             .sort({ date: -1 })
-            .then(function (dbGame) { return res.json(dbGame); })
+            .then(function (dbPlayer) { return res.json(dbPlayer); })
             .catch(function (err) { return res.status(422).json(err); });
     },
     findById: function (req, res) {
-        db.Game.findById(req.params.id)
-            .then(function (dbGame) { return res.json(dbGame); })
+        db.Player.findById(req.params.id)
+            .then(function (dbPlayer) { return res.json(dbPlayer); })
             .catch(function (err) { return res.status(422).json(err); });
     },
     create: function (req, res) {
-        db.Game.create(req.body)
-            .then(function (dbGame) { return res.json(dbGame); })
+        console.log(req.body);
+        db.Player.create(req.body)
+            .then(function (dbPlayer) { return res.json(dbPlayer); })
             .catch(function (err) { return res.status(422).json(err); });
     },
     update: function (req, res) {
-        db.Game.findOneAndUpdate({ _id: req.params.id }, req.body)
-            .then(function (dbGame) { return res.json(dbGame); })
+        db.Player.findOneAndUpdate({ _id: req.params.id }, req.body)
+            .then(function (dbPlayer) { return res.json(dbPlayer); })
             .catch(function (err) { return res.status(422).json(err); });
     },
     remove: function (req, res) {
-        db.Game.findById({ _id: req.params.id })
-            // .then((dbGame: IPlayer) => dbGame.remove())
-            .then(function (dbGame) { return res.json(dbGame); })
+        db.Player.findById({ _id: req.params.id })
+            // .then((dbPlayer: IPlayer) => dbPlayer.remove())
+            .then(function (dbPlayer) { return res.json(dbPlayer); })
             .catch(function (err) { return res.status(422).json(err); });
     },
 };
