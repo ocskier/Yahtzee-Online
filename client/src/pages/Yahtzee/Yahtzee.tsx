@@ -92,8 +92,7 @@ function Yahtzee() {
     <Container
       fluid
       style={{
-        marginTop: '-4rem',
-        minHeight: 'calc(100vh - 112px)',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -108,10 +107,10 @@ function Yahtzee() {
         alt="React Bootstrap logo"
       />
       <Row style={{ width: '100%' }}>
-        <Col md={9}>
+        <Col lg={9}>
           <Container
             style={{
-              width: '80%',
+              width: '100%',
               maxWidth: '1160px',
               background: 'white',
               minHeight: '626px',
@@ -121,8 +120,8 @@ function Yahtzee() {
             }}
           ></Container>
         </Col>
-        <Col md={3}>
-          <Card style={{ margin: '40px auto 0', minHeight: '460px', width: '100%' }}>
+        <Col lg={3} style = {{display: 'flex',alignItems: 'center',padding: '2rem 0'}}>
+          <Card style={{ margin: '0 auto', minHeight: '460px', width: '100%' }}>
             <Card.Body>
               <Card.Title>Stream</Card.Title>
               <Card.Text>Players Chat Area</Card.Text>

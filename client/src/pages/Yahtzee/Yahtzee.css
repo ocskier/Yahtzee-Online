@@ -8,6 +8,16 @@
     max-height: 480px;
 }
 
-.twitter-tweet:active {
+.mainlogo {
+    animation: main-logo-spin infinite 3s linear;
+    margin: 2rem;
+}
 
+@keyframes main-logo-spin {
+from {
+    transform: rotate(0deg);
+}
+to {
+    transform: rotate(360deg);
+}
 }

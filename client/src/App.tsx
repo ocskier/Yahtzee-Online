@@ -41,7 +41,19 @@ const App: FC<Props> = () => {
       onOpen: () => setIsToastOpen(true),
       onClose: () => setIsToastOpen(false)
       });
-  },[error]);
+    user && toast.success('Authentication Successful', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      closeButton: false,
+      onOpen: () => setIsToastOpen(true),
+      onClose: () => setIsToastOpen(false)
+      });
+  },[error, user]);
 
   return (
     <>
