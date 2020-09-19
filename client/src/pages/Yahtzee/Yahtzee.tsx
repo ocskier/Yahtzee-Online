@@ -24,7 +24,7 @@ const styles = {
     marginTop: '5px',
     marginBottom: '5px',
   },
-};
+}
 
 function Yahtzee() {
   // const [players, setPlayers] = useState([]);
@@ -36,9 +36,14 @@ function Yahtzee() {
   const { user } = useFirebaseAuth();
 
   useEffect(() => {
-    API.checkConnection().then((res: AxiosResponse) => console.log(res.data.msg));
+    checkConnection();
+  }, []);
+
+  const checkConnection = async () => {
+    const res: AxiosResponse = await API.checkConnection();
+    console.log(res.data.msg);
     setSocket(ioClient(process.env.NODE_ENV === 'production' ? window.location.hostname : endpoint));
-  }, [endpoint]);
+  }
 
   useEffect(() => {
     if (Object.keys(socket).length !== 0) {

@@ -37,14 +37,16 @@ const SignupForm: FC<Props> = () => {
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     let credentials: any = await createUserWithEmailAndPassword(username, password);
-    formState.firstName && formState.lastName && await credentials.user.updateProfile({displayName: `${formState.firstName} ${formState.lastName}` })
+    formState.firstName &&
+      formState.lastName &&
+      (await credentials.user.updateProfile({ displayName: `${formState.firstName} ${formState.lastName}` }));
     credentials && handlePlayerCreation(credentials);
   };
 
   const handlePlayerCreation = async (cred: firebase.auth.UserCredential) => {
-    console.log("Running player creation")
-    await API.createPlayer({uid: cred.user.uid, fullName: cred.user.displayName})
-  }
+    console.log('Running player creation');
+    await API.createPlayer({ uid: cred.user.uid, fullName: cred.user.displayName });
+  };
 
   if (redirectTo) {
     return <Redirect to={{ pathname: redirectTo }} />;

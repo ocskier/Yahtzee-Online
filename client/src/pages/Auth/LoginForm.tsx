@@ -83,7 +83,7 @@ const LoginForm: FC<LoginProps> = () => {
     await signInWithEmailAndPassword(username, password);
   };
 
-  const onSocialSubmit = (provider: string) => signInWithProvider(provider);
+  const onSocialSubmit = async (provider: string) => await signInWithProvider(provider);
 
   return (
     <>
