@@ -22,7 +22,7 @@ const SignupForm: FC<Props> = () => {
   });
   const [redirectTo ] = useState('');
 
-  const { createUserWithEmailAndPassword } = useFirebaseAuth();
+  const { createUserWithEmailAndPassword, updateProfile } = useFirebaseAuth();
 
   const handleChange = (event: ChangeEvent<{ name: string; value: unknown }>) => {
     const { name } = event.target;
@@ -36,9 +36,11 @@ const SignupForm: FC<Props> = () => {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const credentials = await createUserWithEmailAndPassword(username, password);
+    let credentials: any = await createUserWithEmailAndPassword(username, password);
+    formState.firstName && formState.lastName && await credentials.user.updateProfile({displayName: `${formState.firstName} ${formState.lastName}` })
     credentials && handlePlayerCreation(credentials);
   };
+
   const handlePlayerCreation = async (cred: firebase.auth.UserCredential) => {
     console.log("Running player creation")
     await API.createPlayer({uid: cred.user.uid, fullName: cred.user.displayName})
