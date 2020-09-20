@@ -8,6 +8,6 @@ router.route('/').get(function (req, res) {
         msg: 'Succeeded Connection!',
     });
 });
-router.use('/player', playerRoutes);
+router.use('/players', playerRoutes);
 // router.use('/game', gameRoutes);
 module.exports = router;

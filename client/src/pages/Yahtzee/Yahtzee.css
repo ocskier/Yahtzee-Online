@@ -9,8 +9,11 @@
 }
 
 .mainlogo {
-    animation: main-logo-spin infinite 3s linear;
     margin: 2rem;
+}
+
+.mainlogo:hover {
+    animation: main-logo-spin infinite 3s linear;
 }
 
 .section {

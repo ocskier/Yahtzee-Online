@@ -4,8 +4,8 @@ var db = require('../models');
 module.exports = {
     findAll: function (req, res) {
         db.Player.find(req.query)
-            .sort({ date: -1 })
-            .then(function (dbPlayer) { return res.json(dbPlayer); })
+            // .sort({ date: -1 })
+            .then(function (dbPlayers) { return res.json(dbPlayers); })
             .catch(function (err) { return res.status(422).json(err); });
     },
     findById: function (req, res) {
