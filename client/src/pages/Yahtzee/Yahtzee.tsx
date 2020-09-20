@@ -27,7 +27,7 @@ const styles = {
 }
 
 function Yahtzee() {
-  // const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState([]);
   const [socket, setSocket] = useState({} as SocketIOClient.Socket);
   const [incomingMsgs, setIncomingMsgs] = useState([] as any);
   const [tweets, setTweets] = useState([] as any);
@@ -35,15 +35,21 @@ function Yahtzee() {
   const [endpoint] = useState('http://localhost:3001/');
   const { user } = useFirebaseAuth();
 
-  useEffect(() => {
-    checkConnection();
-  }, []);
+  const getPlayers = async () => {
+    const playerRes: AxiosResponse = await API.getPlayers();
+    setPlayers(playerRes.data);
+  }
 
   const checkConnection = async () => {
     const res: AxiosResponse = await API.checkConnection();
     console.log(res.data.msg);
     setSocket(ioClient(process.env.NODE_ENV === 'production' ? window.location.hostname : endpoint));
+    getPlayers();
   }
+
+  useEffect(() => {
+    checkConnection();
+  }, []);
 
   useEffect(() => {
     if (Object.keys(socket).length !== 0) {
@@ -96,13 +102,7 @@ function Yahtzee() {
   return (
     <Container
       fluid
-      style={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+      className="section"
     >
       <img
         src="https://images.vexels.com/media/users/3/135811/isolated/preview/f3dc1094d770aadce0dff261623fddb6-dices-3d-icon-by-vexels.png"
@@ -122,8 +122,11 @@ function Yahtzee() {
               margin: '0',
               borderRadius: '5%',
               height: '100%',
+              padding: '2rem'
             }}
-          ></Container>
+          >
+            {players.map(player =>(<p key={player._id}> {player.fullName}</p>))}
+          </Container>
         </Col>
         <Col lg={3} style = {{display: 'flex',alignItems: 'center',padding: '2rem 0'}}>
           <Card style={{ margin: '0 auto', minHeight: '460px', width: '100%' }}>

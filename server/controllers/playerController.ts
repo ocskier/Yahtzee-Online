@@ -7,8 +7,8 @@ import { Error } from 'mongoose';
 module.exports = {
   findAll: function (req: Request, res: Response) {
     db.Player.find(req.query)
-      .sort({ date: -1 })
-      .then((dbPlayer: IPlayer) => res.json(dbPlayer))
+      // .sort({ date: -1 })
+      .then((dbPlayers: IPlayer) => res.json(dbPlayers))
       .catch((err: Error) => res.status(422).json(err));
   },
   findById: function (req: Request, res: Response) {

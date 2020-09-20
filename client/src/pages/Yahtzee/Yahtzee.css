@@ -13,6 +13,14 @@
     margin: 2rem;
 }
 
+.section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 @keyframes main-logo-spin {
 from {
     transform: rotate(0deg);

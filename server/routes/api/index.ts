@@ -10,7 +10,7 @@ router.route('/').get(function (req: Request, res: Response) {
   });
 });
 
-router.use('/player', playerRoutes);
+router.use('/players', playerRoutes);
 // router.use('/game', gameRoutes);
 
 module.exports = router;

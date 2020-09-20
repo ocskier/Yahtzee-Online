@@ -22,7 +22,7 @@ const SignupForm: FC<Props> = () => {
   });
   const [redirectTo ] = useState('');
 
-  const { createUserWithEmailAndPassword, updateProfile } = useFirebaseAuth();
+  const { createUserWithEmailAndPassword } = useFirebaseAuth();
 
   const handleChange = (event: ChangeEvent<{ name: string; value: unknown }>) => {
     const { name } = event.target;
