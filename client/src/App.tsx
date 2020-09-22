@@ -75,7 +75,7 @@ const App: FC<Props> = () => {
 
   useEffect(() => {
     if (Object.keys(socket).length !== 0) {
-      socket.emit('data', 'ipa');
+      socket.emit('data', 'Yahtzee');
       socket.on('tweet', (data: any) => {
         console.log(data);
         setTweets((tweets: any[]) => [...tweets, data.id_str]);
