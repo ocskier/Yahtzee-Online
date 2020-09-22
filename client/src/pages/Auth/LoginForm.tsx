@@ -20,7 +20,7 @@ interface StyleTypes {
 
 const styleSheet: StyleTypes = {
   signInCard: {
-    marginTop: '-10rem',
+    marginTop: '-4rem',
   },
   socialDiv: {
     display: 'flex',
@@ -94,7 +94,7 @@ const LoginForm: FC<LoginProps> = () => {
       ) : (
         <div style={styleSheet.signInCard}>
           <Card title="Lets Play Yahtzee!">
-            <div>
+            <div className="socialDiv">
               <div style={styleSheet.socialFab} onClick={() => onSocialSubmit('google')}>
                 <span style={styleSheet.googleIcon}></span>
                 <span style={styleSheet.buttonText}>Login with Google</span>

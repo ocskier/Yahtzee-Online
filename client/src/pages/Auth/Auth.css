@@ -8,7 +8,13 @@
 }
 
 .card {
-  width: 600px;
+  width: auto;
   margin: 0 auto;
   max-width: 650px;
+}
+
+@media only screen and (max-width: 596px) {
+  .socialDiv {
+    display: contents;
+  }
 }
