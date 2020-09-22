@@ -25,7 +25,6 @@ const styles = {
   },
   sidebar: {
     height: '100%',
-    width: '240px',
     position: 'fixed' as 'fixed',
     zIndex: 1,
     top: 0,
@@ -42,9 +41,15 @@ const styles = {
     minHeight: '460px',
     width: '100%',
   },
+  open: {
+    width: '240px',
+  },
+  closed: {
+    width: 0,
+  },
 };
 
-const Sidebar = ({ socket }) => {
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, socket }) => {
   const [incomingMsgs, setIncomingMsgs] = useState([] as any);
   const [outgoingMsg, setOutgoingMsg] = useState('');
 
@@ -95,10 +100,14 @@ const Sidebar = ({ socket }) => {
 
   return (
     <>
-      <Nav className="d-md-block bg-light" style={styles.sidebar} activeKey="/home">
+      <Nav
+        className="d-md-block bg-light"
+        style={isSidebarOpen ? { ...styles.sidebar, ...styles.open } : { ...styles.sidebar, ...styles.closed }}
+        activeKey="/home"
+      >
         <div className="sidebar-sticky"></div>
         <div style={styles.sidebarWrapperHeader}>
-          <i></i>
+          <i onClick={() => setIsSidebarOpen(false)}>*</i>
         </div>
         <Nav.Item>
           <Nav.Link href="/">Active</Nav.Link>

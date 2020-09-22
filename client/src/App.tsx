@@ -29,6 +29,10 @@ const styles = {
     marginRight: '240px' /* Width of sidebar */,
     padding: 0,
   },
+  closed: {
+    marginRight: 0 /* No sidebar */,
+    padding: 0,
+  },
 };
 
 interface Props {}
@@ -38,6 +42,7 @@ const App: FC<Props> = () => {
   const [tweets, setTweets] = useState([] as any);
   const [endpoint] = useState('http://localhost:3001/');
   const [isToastOpen, setIsToastOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { user, error, signOut } = useFirebaseAuth();
 
   useEffect(() => {
@@ -99,9 +104,15 @@ const App: FC<Props> = () => {
         style={styles.toast}
       />
       <div className="App" style={isToastOpen ? styles.error : {}}>
-        <Sidebar socket={socket} />
-        <div style={styles.pageContentWrapper}>
-          <Nav footer={false} user={user} signOut={signOut} />
+        <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} socket={socket} />
+        <div style={isSidebarOpen ? styles.pageContentWrapper : styles.closed}>
+          <Nav
+            footer={false}
+            user={user}
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+            signOut={signOut}
+          />
           {user && (
             <div className="main-view container-fluid">
               <Switch>

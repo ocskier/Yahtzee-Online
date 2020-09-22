@@ -10,6 +10,8 @@ import './Nav.css';
 interface NavProps {
   footer: boolean | undefined;
   loggedIn?: boolean;
+  isSidebarOpen?: boolean;
+  setIsSidebarOpen?: (val: boolean) => void;
   user?: any | null;
   signOut?: () => Promise<void>;
 }
@@ -55,6 +57,11 @@ const NavBar: FC<NavProps> = (props) => {
             <Link onClick={logout} to="/" className="logout">
               {props.user ? 'Logout' : 'Login'}
             </Link>
+            {!props.isSidebarOpen && (
+              <i style={{ position: 'absolute', right: 0, top: '50%' }} onClick={() => props.setIsSidebarOpen(true)}>
+                *
+              </i>
+            )}
           </Nav>
         </>
       )}
