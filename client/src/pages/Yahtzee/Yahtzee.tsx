@@ -33,8 +33,6 @@ const styles = {
     minHeight: '626px',
     margin: '0',
     borderRadius: '5%',
-    height: '100%',
-    padding: '2rem',
     opacity: '0.2',
   },
 };
@@ -75,7 +73,7 @@ function Yahtzee({ tweets }) {
             </Card.Body>
           </Card>
         </Col>
-        <Col lg={9} style={{ flexDirection: 'column' as 'column' }}>
+        <Col lg={9} style={{ flexDirection: 'column' as 'column', padding: '0 2rem' }}>
           <img
             src="https://images.vexels.com/media/users/3/135811/isolated/preview/f3dc1094d770aadce0dff261623fddb6-dices-3d-icon-by-vexels.png"
             width="300"
