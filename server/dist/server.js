@@ -4,7 +4,7 @@ require('dotenv').config();
 var express = require('express');
 var morgan = require('morgan');
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var MongoStore = require('connect-mongo');
 var dbConnection = require('./db'); // loads our connection to the mongo database
 var routes = require('./routes');
 var app = express();

@@ -6,7 +6,7 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 const dbConnection = require('./db'); // loads our connection to the mongo database
 const routes = require('./routes');
 const app = express();
