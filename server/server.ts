@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(
   session({
     secret: process.env.APP_SECRET || 'this is the default passphrase',
-    store: new MongoStore({ mongooseConnection: dbConnection }),
+    store: MongoStore.create({ client: dbConnection }),
     resave: false,
     saveUninitialized: false,
   }),
