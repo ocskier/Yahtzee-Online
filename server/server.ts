@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Socket } from 'socket.io';
 
 require('dotenv').config();
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(
   session({
     secret: process.env.APP_SECRET || 'this is the default passphrase',
-    store: MongoStore.create({ client: dbConnection }),
+    store: new MongoStore(dbConnection),
     resave: false,
     saveUninitialized: false,
   }),
